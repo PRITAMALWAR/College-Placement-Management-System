@@ -6,6 +6,68 @@ import generateToken from "../utils/generateToken.js";
 // @desc Register Student
 // @route POST /api/auth/register
 // @access Public
+// export const registerStudent = async (req, res) => {
+//   try {
+//     const {
+//       name,
+//       email,
+//       password,
+//       enrollmentNo,
+//       branch,
+//       cgpa,
+//       skills,
+//     } = req.body;
+
+//     const existingUser = await User.findOne({
+//       email,
+//     });
+
+//     if (existingUser) {
+//       return res.status(400).json({
+//         success: false,
+//         message: "User already exists",
+//       });
+//     }
+
+//     const user = await User.create({
+//       name,
+//       email,
+//       password,
+//       role: "student",
+//     });
+
+//     await Student.create({
+//       userId: user._id,
+//       enrollmentNo,
+//       branch,
+//       cgpa,
+//       skills,
+//     });
+
+//     const token = generateToken(
+//       user._id,
+//       user.role
+//     );
+
+//     res.status(201).json({
+//       success: true,
+//       message: "Student registered successfully",
+//       token,
+//       user: {
+//         _id: user._id,
+//         name: user.name,
+//         email: user.email,
+//         role: user.role,
+//       },
+//     });
+//   } catch (error) {
+//     res.status(500).json({
+//       success: false,
+//       message: error.message,
+//     });
+//   }
+// };
+
 export const registerStudent = async (req, res) => {
   try {
     const {
@@ -18,9 +80,13 @@ export const registerStudent = async (req, res) => {
       skills,
     } = req.body;
 
+    console.log("Step 1");
+
     const existingUser = await User.findOne({
       email,
     });
+
+    console.log("Step 2");
 
     if (existingUser) {
       return res.status(400).json({
@@ -36,6 +102,8 @@ export const registerStudent = async (req, res) => {
       role: "student",
     });
 
+    console.log("Step 3");
+
     await Student.create({
       userId: user._id,
       enrollmentNo,
@@ -44,30 +112,33 @@ export const registerStudent = async (req, res) => {
       skills,
     });
 
+    console.log("Step 4");
+
     const token = generateToken(
       user._id,
       user.role
     );
 
+    console.log("Step 5");
+
     res.status(201).json({
       success: true,
       message: "Student registered successfully",
       token,
-      user: {
-        _id: user._id,
-        name: user.name,
-        email: user.email,
-        role: user.role,
-      },
     });
+
   } catch (error) {
+
+    console.error("REGISTER ERROR:");
+    console.error(error);
+
     res.status(500).json({
       success: false,
       message: error.message,
+      stack: error.stack,
     });
   }
 };
-
 
 // @desc Login User
 // @route POST /api/auth/login
