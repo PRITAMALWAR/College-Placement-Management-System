@@ -13,7 +13,18 @@ import authorize from "../middleware/roleMiddleware.js";
 const router = express.Router();
 
 
+// Test Route
+router.get("/test", (req, res) => {
+  res.status(200).json({
+    success: true,
+    message: "Application Routes Working",
+  });
+});
+
+
 // Student Routes
+
+// Apply for a drive
 router.post(
   "/apply",
   protect,
@@ -21,6 +32,7 @@ router.post(
   applyForDrive
 );
 
+// View own applications
 router.get(
   "/my-applications",
   protect,
@@ -29,7 +41,9 @@ router.get(
 );
 
 
-// Company Route
+// Company Routes
+
+// View applications for a drive
 router.get(
   "/drive/:driveId",
   protect,
@@ -38,7 +52,9 @@ router.get(
 );
 
 
-// Company + Admin Route
+// Company + Admin Routes
+
+// Update application status
 router.patch(
   "/:id/status",
   protect,
